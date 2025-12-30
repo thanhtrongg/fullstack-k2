@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hành trình học tập</title>
+
+    <style>
+      :root {
+        --bg1: #0b1220;
+        --bg2: #0a1a2a;
+        --card: rgba(255, 255, 255, 0.06);
+        --stroke: rgba(255, 255, 255, 0.1);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.62);
+        --brand1: #7c3aed; /* tím */
+        --brand2: #22c55e; /* xanh lá */
+        --brand3: #38bdf8; /* xanh dương */
+        --glow: 0 18px 60px rgba(0, 0, 0, 0.45);
+        --radius: 18px;
+        --radius-sm: 14px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial;
+        color: var(--text);
+        background: radial-gradient(
+            1200px 700px at 10% 0%,
+            rgba(124, 58, 237, 0.35),
+            transparent 55%
+          ),
+          radial-gradient(
+            1000px 700px at 90% 10%,
+            rgba(56, 189, 248, 0.28),
+            transparent 50%
+          ),
+          radial-gradient(
+            900px 600px at 50% 110%,
+            rgba(34, 197, 94, 0.22),
+            transparent 50%
+          ),
+          linear-gradient(180deg, var(--bg1), var(--bg2));
+        min-height: 100vh;
+      }
+
+      .wrap {
+        width: min(980px, 92vw);
+        margin: 54px auto 84px;
+      }
+
+      /* Header: khác hẳn bản cũ */
+      .hero {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 34px;
+      }
+      .hero h1 {
+        margin: 0;
+        font-size: clamp(26px, 3.6vw, 42px);
+        line-height: 1.05;
+        letter-spacing: 0.02em;
+        font-weight: 900;
+        background: linear-gradient(90deg, #ffffff, rgba(255, 255, 255, 0.72));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .hero p {
+        margin: 0;
+        color: var(--muted);
+        max-width: 58ch;
+        font-size: 15px;
+      }
+
+      .hero .spark {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 8px;
+      }
+      .chip {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.78);
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--brand1), var(--brand3));
+        box-shadow: 0 0 0 6px rgba(124, 58, 237, 0.15);
+      }
+
+      /* Timeline */
+      .timeline {
+        position: relative;
+        padding-left: 30px;
+        display: grid;
+        gap: 16px;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 12px;
+        top: 8px;
+        bottom: 8px;
+        width: 2px;
+        background: linear-gradient(
+          180deg,
+          rgba(124, 58, 237, 0.9),
+          rgba(56, 189, 248, 0.7),
+          rgba(34, 197, 94, 0.7)
+        );
+        opacity: 0.65;
+        border-radius: 999px;
+      }
+
+      /* Lesson accordion card */
+      details.lesson {
+        position: relative;
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: var(--glow);
+        overflow: clip;
+        backdrop-filter: blur(14px);
+      }
+
+      /* gradient border trick */
+      details.lesson::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        padding: 1px;
+        border-radius: inherit;
+        background: linear-gradient(
+          135deg,
+          rgba(124, 58, 237, 0.85),
+          rgba(56, 189, 248, 0.65),
+          rgba(34, 197, 94, 0.65)
+        );
+        -webkit-mask: linear-gradient(#000 0 0) content-box,
+          linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+        opacity: 0.75;
+      }
+
+      /* Timeline node */
+      details.lesson > summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 18px 18px 18px 18px;
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        outline: none;
+        user-select: none;
+        position: relative;
+      }
+      details.lesson > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .node {
+        position: absolute;
+        left: -30px;
+        top: 20px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        display: grid;
+        place-items: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      }
+      .node span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--brand1), var(--brand3));
+        box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.14);
+      }
+
+      .lesson-head {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .lesson-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 6px;
+      }
+      .lesson-title h2 {
+        margin: 0;
+        font-size: 18px;
+        letter-spacing: 0.02em;
+      }
+      .tag {
+        font-size: 12px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: rgba(255, 255, 255, 0.74);
+      }
+
+      .lesson-sub {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* Chevron */
+      .chev {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.06);
+        display: grid;
+        place-items: center;
+        flex: 0 0 auto;
+        transition: transform 0.2s ease, background 0.2s ease;
+      }
+      details[open] .chev {
+        transform: rotate(180deg);
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      /* Content inside */
+      .lesson-body {
+        padding: 0 18px 18px 18px;
+      }
+
+      .exercise-grid {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      /* Exercise card - kiểu ticket */
+      .exercise {
+        text-decoration: none;
+        color: inherit;
+        border-radius: var(--radius-sm);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 14px 14px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        transition: transform 0.18s ease, border-color 0.18s ease,
+          background 0.18s ease;
+        position: relative;
+        overflow: hidden;
+        min-height: 62px;
+      }
+      .exercise::after {
+        content: "";
+        position: absolute;
+        inset: auto -40% -40% auto;
+        width: 220px;
+        height: 220px;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(56, 189, 248, 0.28),
+          transparent 60%
+        );
+        transform: rotate(18deg);
+        pointer-events: none;
+      }
+      .exercise:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(56, 189, 248, 0.35);
+      }
+      .badge-num {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        background: linear-gradient(
+          135deg,
+          rgba(124, 58, 237, 0.35),
+          rgba(56, 189, 248, 0.22)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        flex: 0 0 auto;
+      }
+      .ex-info {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .ex-name {
+        margin: 0;
+        font-weight: 800;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .ex-desc {
+        margin: 4px 0 0 0;
+        font-size: 12.5px;
+        color: var(--muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .go {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.06);
+        flex: 0 0 auto;
+        transition: transform 0.18s ease;
+        z-index: 1;
+      }
+      .exercise:hover .go {
+        transform: translateX(2px);
+      }
+
+      /* Focus accessible */
+      .exercise:focus-visible,
+      details.lesson > summary:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
+      }
+
+      /* Responsive */
+      @media (max-width: 760px) {
+        .timeline {
+          padding-left: 26px;
+        }
+        .node {
+          left: -26px;
+        }
+        .exercise-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="wrap">
+      <header class="hero">
+        <h1>Bài tập về nhà</h1>
+        <p>Học viên: Trần Thanh Trọng</p>
+        <div class="spark">
+          <span class="chip"><span class="dot"></span> HTML</span>
+          <span class="chip">CSS</span>
+          <span class="chip">Javascript</span>
+        </div>
+      </header>
+
+      <section class="timeline">
+        <details class="lesson" open>
+          <summary>
+            <div class="node" aria-hidden="true"><span></span></div>
+
+            <div class="lesson-head">
+              <div class="lesson-title">
+                <h2>Lesson 1</h2>
+                <span class="tag">HTML</span>
+                <span class="tag">3 bài</span>
+              </div>
+              <p class="lesson-sub">Bài tập về nhà buổi 1</p>
+            </div>
+
+            <div class="chev" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M6 9l6 6 6-6"
+                  stroke="rgba(255,255,255,.8)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </summary>
+
+          <div class="lesson-body">
+            <div class="exercise-grid">
+              <a
+                class="exercise"
+                href="https://thanhtrongg.github.io/fullstack-k2/Buoi-1/ex01.html"
+              >
+                <div class="badge-num">01</div>
+                <div class="ex-info">
+                  <p class="ex-name">Bài tập 1</p>
+                  <p class="ex-desc">Input box + bố cục cơ bản</p>
+                </div>
+                <div class="go" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M9 6l6 6-6 6"
+                      stroke="rgba(255,255,255,.85)"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </a>
+
+              <a class="exercise" href="#">
+                <div class="badge-num">02</div>
+                <div class="ex-info">
+                  <p class="ex-name">Bài tập 2</p>
+                  <p class="ex-desc">List</p>
+                </div>
+                <div class="go" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M9 6l6 6-6 6"
+                      stroke="rgba(255,255,255,.85)"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </a>
+
+              <a class="exercise" href="#">
+                <div class="badge-num">03</div>
+                <div class="ex-info">
+                  <p class="ex-name">Bài tập 3</p>
+                  <p class="ex-desc">Bố cục cơ bản</p>
+                </div>
+                <div class="go" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M9 6l6 6-6 6"
+                      stroke="rgba(255,255,255,.85)"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </a>
+            </div>
+          </div>
+        </details>
+
+        <details class="lesson">
+          <summary>
+            <div class="node" aria-hidden="true"><span></span></div>
+
+            <div class="lesson-head">
+              <div class="lesson-title">
+                <h2>Lesson 2</h2>
+                <span class="tag">Responsive</span>
+                <span class="tag">4 bài</span>
+              </div>
+              <p class="lesson-sub">Grid, breakpoint và tổ chức component.</p>
+            </div>
+
+            <div class="chev" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M6 9l6 6 6-6"
+                  stroke="rgba(255,255,255,.8)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </summary>
+
+          <div class="lesson-body">
+            <div class="exercise-grid">
+              <a class="exercise" href="#"
+                ><div class="badge-num">01</div>
+                <div class="ex-info">
+                  <p class="ex-name">Bài tập 1</p>
+                  <p class="ex-desc">Grid layout 2 cột</p>
+                </div>
+                <div class="go" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M9 6l6 6-6 6"
+                      stroke="rgba(255,255,255,.85)"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg></div
+              ></a>
+              <a class="exercise" href="#"
+                ><div class="badge-num">02</div>
+                <div class="ex-info">
+                  <p class="ex-name">Bài tập 2</p>
+                  <p class="ex-desc">Mobile first</p>
+                </div>
+                <div class="go" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M9 6l6 6-6 6"
+                      stroke="rgba(255,255,255,.85)"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg></div
+              ></a>
+              <a class="exercise" href="#"
+                ><div class="badge-num">03</div>
+                <div class="ex-info">
+                  <p class="ex-name">Bài tập 3</p>
+                  <p class="ex-desc">Component hoá UI</p>
+                </div>
+                <div class="go" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M9 6l6 6-6 6"
+                      stroke="rgba(255,255,255,.85)"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg></div
+              ></a>
+              <a class="exercise" href="#"
+                ><div class="badge-num">04</div>
+                <div class="ex-info">
+                  <p class="ex-name">Bài tập 4</p>
+                  <p class="ex-desc">Tối ưu spacing</p>
+                </div>
+                <div class="go" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M9 6l6 6-6 6"
+                      stroke="rgba(255,255,255,.85)"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg></div
+              ></a>
+            </div>
+          </div>
+        </details>
+
+        <details class="lesson">
+          <summary>
+            <div class="node" aria-hidden="true"><span></span></div>
+
+            <div class="lesson-head">
+              <div class="lesson-title">
+                <h2>Lesson 3</h2>
+                <span class="tag">UI Polish</span>
+                <span class="tag">4 bài</span>
+              </div>
+              <p class="lesson-sub">
+                Shadow, focus, animation & accessibility.
+              </p>
+            </div>
+
+            <div class="chev" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M6 9l6 6 6-6"
+                  stroke="rgba(255,255,255,.8)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </summary>
+
+          <div class="lesson-body">
+            <div class="exercise-grid">
+              <a class="exercise" href="#"
+                ><div class="badge-num">01</div>
+                <div class="ex-info">
+                  <p class="ex-name">Bài tập 1</p>
+                  <p class="ex-desc">Shadow & border</p>
+                </div>
+                <div class="go" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M9 6l6 6-6 6"
+                      stroke="rgba(255,255,255,.85)"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg></div
+              ></a>
+              <a class="exercise" href="#"
+                ><div class="badge-num">02</div>
+                <div class="ex-info">
+                  <p class="ex-name">Bài tập 2</p>
+                  <p class="ex-desc">Focus state</p>
+                </div>
+                <div class="go" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M9 6l6 6-6 6"
+                      stroke="rgba(255,255,255,.85)"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg></div
+              ></a>
+              <a class="exercise" href="#"
+                ><div class="badge-num">03</div>
+                <div class="ex-info">
+                  <p class="ex-name">Bài tập 3</p>
+                  <p class="ex-desc">Animation mượt</p>
+                </div>
+                <div class="go" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M9 6l6 6-6 6"
+                      stroke="rgba(255,255,255,.85)"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg></div
+              ></a>
+              <a class="exercise" href="#"
+                ><div class="badge-num">04</div>
+                <div class="ex-info">
+                  <p class="ex-name">Bài tập 4</p>
+                  <p class="ex-desc">Tối ưu hiển thị</p>
+                </div>
+                <div class="go" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M9 6l6 6-6 6"
+                      stroke="rgba(255,255,255,.85)"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg></div
+              ></a>
+            </div>
+          </div>
+        </details>
+      </section>
+    </main>
+  </body>
+</html>
