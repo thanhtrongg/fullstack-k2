@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Login</title>
+    <link rel="stylesheet" href="./css/ex03.css" />
+  </head>
+  <body>
+    <form>
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" />
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" />
+      </div>
+      <div>
+        <label for="city">City of Employment:</label>
+        <input type="text" name="city" id="city" />
+      </div>
+      <div>
+        <label for="city">Web server:</label>
+        <select name="web-server" id="web-server">
+          <option value="0" selected>- Choose a server -</option>
+        </select>
+      </div>
+      <div>
+        <label for="role">Please specify your role:</label>
+        <label><input type="radio" name="role" value="admin" />Admin</label>
+        <label
+          ><input type="radio" name="role" value="engineer" />Engineer</label
+        >
+        <label><input type="radio" name="role" value="manager" />Manager</label>
+        <label><input type="radio" name="role" value="guest" />Guest</label>
+      </div>
+      <div>
+        <label>Single Sign-on to the following:</label>
+        <label>
+          <input type="checkbox" name="Sign-on" value="mail" /> Mail
+        </label>
+        <label>
+          <input type="checkbox" name="Sign-on" value="payroll" /> Payroll
+        </label>
+        <label>
+          <input type="checkbox" name="Sign-on" value="self-service" />
+          Self-service
+        </label>
+      </div>
+      <button type="submit">Login</button>
+      <button type="reset">Reset</button>
+    </form>
+  </body>
+</html>

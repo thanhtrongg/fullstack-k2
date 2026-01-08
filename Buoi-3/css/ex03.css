@@ -1,0 +1,52 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+}
+
+form {
+  width: 420px;
+}
+
+form > div {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  column-gap: 12px;
+  align-items: start;
+  margin: 6px 0;
+}
+
+form > div > label:first-child {
+  display: block;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+  width: 220px;
+}
+
+form > div:nth-child(5) > label:not(:first-child),
+form > div:nth-child(6) > label:not(:first-child) {
+  grid-column: 2;
+  display: block;
+  margin: 3px 0;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin-right: 6px;
+}
+
+button {
+  margin-top: 8px;
+}
+
+button[type="submit"] {
+  margin-left: 152px;
+}
