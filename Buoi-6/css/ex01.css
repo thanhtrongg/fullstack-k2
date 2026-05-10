@@ -1,0 +1,258 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+.card {
+  width: 660px;
+  max-width: 100%;
+}
+
+.title {
+  margin: 0 0 12px;
+  font-family: "Lobster";
+  font-size: 5.6em;
+  font-weight: 300;
+  color: black;
+}
+
+.desc {
+  margin: 0 0 28px;
+  font-family: "lato";
+  line-height: 1.6;
+  font-size: 1.6em;
+  color: rgb(97, 95, 95);
+}
+
+.desc-strong {
+  color: red;
+}
+
+.field {
+  display: flex;
+  border: 2px solid #e6e6e6;
+  height: 62px;
+  margin-bottom: 18px;
+  background: #fff;
+}
+
+.field-icon {
+  width: 64px;
+  background: grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.field-icon .icon-left {
+  color: #fff;
+  font-size: 22px;
+}
+
+.field-control {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.field-control input,
+.field-control select {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  padding: 0 44px 0 18px;
+  font-size: 1.6em;
+  color: #666;
+}
+
+.field-control input::placeholder {
+  color: #b9b9b9;
+}
+
+.field-control .req {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #cfcfcf;
+  font-size: 18px;
+}
+
+.field:hover,
+.field:focus-within {
+  border-color: #111;
+}
+
+.field:hover .field-icon,
+.field:focus-within .field-icon {
+  background: #111;
+}
+
+.tip {
+  position: absolute;
+  left: 14px;
+  top: -44px; /* đẩy lên trên */
+  background: #111;
+  color: #fff;
+  font-size: 13px;
+  padding: 10px 12px;
+  white-space: nowrap;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: 0.2s;
+}
+
+/* mũi tên của tooltip */
+.tip::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  bottom: -10px;
+  border-width: 10px 10px 0 10px;
+  border-style: solid;
+  border-color: #111 transparent transparent transparent;
+}
+
+.field:hover .tip,
+.field:focus-within .tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.icon-right {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 18px;
+  transition: 0.2s;
+}
+
+/* trạng thái mặc định: hiện star, ẩn x */
+.icon-star {
+  opacity: 1;
+  visibility: visible;
+}
+.icon-close {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* hover/focus vào field: ẩn star, hiện x */
+.field:hover .icon-star,
+.field:focus-within .icon-star {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.field:hover .icon-close,
+.field:focus-within .icon-close {
+  opacity: 1;
+  visibility: visible;
+}
+
+.icon-down {
+  right: 16px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.field-control select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  background: transparent;
+}
+
+.field-textarea {
+  height: 260px;
+  align-items: stretch;
+}
+
+.field-control textarea {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  resize: none; /* không cho kéo góc */
+  padding: 18px 44px 18px 18px; /* chừa phải cho icon */
+  font-size: 1.6em;
+  color: #666;
+  font-family: "Lato", sans-serif;
+}
+
+.field-control textarea::placeholder {
+  color: #b9b9b9;
+}
+
+.field-textarea .field-icon {
+  align-items: flex-start;
+  padding-top: 18px;
+}
+
+.field-textarea .icon-right {
+  top: 18px;
+  transform: translateY(0);
+}
+
+.field-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.copy {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Lato", sans-serif;
+  font-size: 1.4em;
+  color: #b9b9b9;
+  user-select: none;
+}
+
+.copy-check {
+  width: 24px;
+  height: 24px;
+  accent-color: #111;
+}
+
+.btn-send {
+  background-color: rgb(225, 41, 41);
+  color: white;
+  border: 0px;
+  font-family: "Lato", sans-serif;
+  font-size: 1.6em;
+  font-weight: 300;
+  padding: 12px 52px;
+  cursor: pointer;
+}
+
+.btn-send:hover {
+  filter: brightness(0.95);
+}
