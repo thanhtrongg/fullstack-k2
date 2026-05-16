@@ -63,3 +63,44 @@ for (var i = 0; i < arr3[0].length; i++) {
   res.push(group);
 }
 console.log(res);
+
+//Bài 4
+var posts = [
+  {
+    title: "Tiêu đề bài viết 1",
+    desc: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellat dolores ea quas possimus non! Corrupti quae nesciunt ipsam suscipit eum quam repellendus dolores harum sit, laudantium delectus quisquam amet atque.",
+    image: "https://picsum.photos/300/200",
+    position: "left",
+  },
+  {
+    title: "Tiêu đề bài viết 2",
+    desc: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellat dolores ea quas possimus non! Corrupti quae nesciunt ipsam suscipit eum quam repellendus dolores harum sit, laudantium delectus quisquam amet atque.",
+    image: "https://picsum.photos/300/200",
+    position: "right",
+  },
+  {
+    title: "Tiêu đề bài viết 3",
+    desc: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellat dolores ea quas possimus non! Corrupti quae nesciunt ipsam suscipit eum quam repellendus dolores harum sit, laudantium delectus quisquam amet atque.",
+    image: "https://picsum.photos/300/200",
+    position: "left",
+  },
+];
+
+var postsEl = document.getElementById("posts");
+
+var html = "";
+
+for (var i = 0; i < posts.length; i++) {
+  html += `
+    <div class="post ${posts[i].position}">
+      <img src="${posts[i].image}" alt="${posts[i].title}">
+
+      <div class="post-content">
+        <h2>${posts[i].title}</h2>
+        <p>${posts[i].desc}</p>
+      </div>
+    </div>
+  `;
+}
+
+postsEl.innerHTML = html;

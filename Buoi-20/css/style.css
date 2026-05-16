@@ -1,0 +1,36 @@
+#posts {
+  width: 900px;
+  margin: 0 auto;
+}
+
+.post {
+  display: flex;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid #ccc;
+  align-items: flex-start;
+}
+
+.post img {
+  width: 260px;
+  height: 170px;
+  object-fit: cover;
+}
+
+.post-content {
+  flex: 1;
+}
+
+.post h2 {
+  margin-top: 0;
+  font-size: 32px;
+}
+
+.post p {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.post.right {
+  flex-direction: row-reverse;
+}
