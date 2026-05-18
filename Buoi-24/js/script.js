@@ -49,3 +49,92 @@ function createCustomers(customers) {
 }
 const result = createCustomers(customers);
 console.log(result);
+
+/*
+2.2. Tạo một hàm login nhận vào 2 tham số email và password.
+
+Yêu cầu:
+
+Nếu thông tin hợp lệ với một trong các đối tượng đã đăng ký, trả về thông tin của đối tượng đó.
+
+Nếu không, báo cho người dùng rằng “Thông tin đăng nhập không hợp lệ”.
+Input:
+
+const data = [];
+const dataRegister = handleRegister(
+  "Nguyen Van A",
+  "123456",
+  "nguyenvana@email.com"
+);
+const dataRegister = handleRegister(
+  "Nguyen Van B",
+  "1234567",
+  "nguyenvanb@email.com"
+);
+const dataLogin = handleLogin("nguyenvanb@email.com", "1234567");
+
+
+Output:
+
+data = [
+  {
+    name: "Nguyen Van A",
+    password: "123456",
+    email: "nguyenvana@email.com",
+    role: "user",
+  },
+  {
+    name: "Nguyen Van B",
+    password: "1234567",
+    email: "nguyenvanb@email.com",
+    role: "user",
+  },
+];
+dataLogin = {
+  name: "Nguyen Van B",
+  password: "1234567",
+  email: "nguyenvanb@email.com",
+  role: "user",
+};
+*/
+const users = [];
+
+function register(name, password, email) {
+  if (!name || !password || !email) {
+    return "Vui lòng nhập đầy đủ thông tin";
+  }
+
+  users.push({
+    name,
+    password,
+    email,
+    role: "user",
+  });
+  return users;
+}
+function login(email, password) {
+  if (!email || !password) {
+    return "Vui lòng nhập email và password";
+  }
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].email === email && users[i].password === password) {
+      return users[i];
+    }
+  }
+  return "Thông tin đăng nhập không hợp lệ";
+}
+
+const dataRegister1 = register(
+  "Nguyen Van A",
+  "123456",
+  "nguyenvana@email.com",
+);
+
+const dataRegister2 = register(
+  "Nguyen Van B",
+  "1234567",
+  "nguyenvanb@email.com",
+);
+const dataLogin = login("nguyenvanb@email.com", "1234567");
+console.log(users);
+console.log(dataLogin);
